@@ -25,6 +25,20 @@
       --text-muted: #9ca3af;
     }
 
+    /* Alternate Themes */
+    body.theme-vaporwave {
+      --bg-dark: #0f051d;
+      --primary-glow: #ff0055;
+      --secondary-glow: #7a00ff;
+      --accent-cyan: #ffdd00;
+    }
+    body.theme-matrix {
+      --bg-dark: #020d08;
+      --primary-glow: #00ff66;
+      --secondary-glow: #008833;
+      --accent-cyan: #00ffcc;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -39,6 +53,7 @@
       overflow-x: hidden;
       position: relative;
       min-height: 100vh;
+      transition: background-color 0.5s ease;
     }
 
     /* Custom Glowing Cursor */
@@ -55,11 +70,17 @@
       z-index: 9999;
     }
 
-    /* Floating Music Toggle Button */
-    .music-btn {
+    /* Top Floating Controls Bar */
+    .controls-bar {
       position: fixed;
       top: 20px;
       right: 20px;
+      display: flex;
+      gap: 0.75rem;
+      z-index: 100;
+    }
+
+    .top-btn {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(12px);
@@ -67,14 +88,14 @@
       padding: 0.75rem 1.25rem;
       border-radius: 9999px;
       cursor: pointer;
-      z-index: 100;
       display: flex;
       align-items: center;
       gap: 0.5rem;
       font-weight: 600;
       transition: all 0.3s ease;
+      font-size: 0.9rem;
     }
-    .music-btn:hover {
+    .top-btn:hover {
       background: rgba(255, 0, 127, 0.3);
       transform: scale(1.05);
     }
@@ -89,6 +110,7 @@
       z-index: -1;
       opacity: 0.45;
       pointer-events: none;
+      transition: background 0.5s ease;
     }
     .glow-1 { top: -100px; left: -100px; background: var(--primary-glow); }
     .glow-2 { bottom: -100px; right: -100px; background: var(--secondary-glow); }
@@ -149,32 +171,6 @@
       font-size: 1.25rem;
       color: var(--text-muted);
       min-height: 2rem;
-    }
-
-    /* Friendship Counter Widget */
-    .counter-widget {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      backdrop-filter: blur(16px);
-      border-radius: 20px;
-      padding: 1.5rem;
-      max-width: 650px;
-      margin: 2rem auto 0;
-      display: flex;
-      justify-content: space-around;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-    .counter-item h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
-      color: #00f2fe;
-    }
-    .counter-item p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
     }
 
     /* Section Styling */
@@ -240,7 +236,7 @@
       border-radius: 6px;
     }
 
-    /* Video Memories Gallery Section */
+    /* Video Memories Gallery Section with 3D Tilt */
     .video-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -257,12 +253,13 @@
       position: relative;
       overflow: hidden;
       transition: all 0.3s ease;
+      transform-style: preserve-3d;
     }
 
     .video-card:hover {
-      transform: translateY(-5px) scale(1.02);
-      border-color: rgba(255, 0, 127, 0.4);
-      box-shadow: 0 15px 35px rgba(255, 0, 127, 0.2);
+      transform: translateY(-8px) rotateX(4deg) rotateY(-4deg);
+      border-color: rgba(255, 0, 127, 0.5);
+      box-shadow: 0 20px 40px rgba(255, 0, 127, 0.25);
     }
 
     .video-wrapper {
@@ -374,7 +371,7 @@
       box-shadow: 0 15px 30px rgba(255, 0, 127, 0.6);
     }
 
-    /* Modal Popups */
+    /* Modal Popups & Pin Box */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -416,6 +413,19 @@
       cursor: pointer;
     }
 
+    .pin-input {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 0.8rem 1.2rem;
+      font-size: 1.2rem;
+      border-radius: 12px;
+      text-align: center;
+      width: 80%;
+      margin: 1rem 0;
+      outline: none;
+    }
+
     /* Footer */
     footer {
       text-align: center;
@@ -442,12 +452,17 @@
   <!-- Custom Cursor Glow -->
   <div class="custom-cursor" id="cursor"></div>
 
-  <!-- Background Music Controls -->
-  <button class="music-btn" onclick="toggleAudio()">
-    <i class="fa-solid fa-music" id="musicIcon"></i>
-    <span id="musicText">Play Vibe</span>
-  </button>
-  <!-- Background Audio File Link -->
+  <!-- Top Floating Controls Bar -->
+  <div class="controls-bar">
+    <button class="top-btn" onclick="cycleTheme()">
+      <i class="fa-solid fa-palette"></i> Theme
+    </button>
+    <button class="top-btn" onclick="toggleAudio()">
+      <i class="fa-solid fa-music" id="musicIcon"></i>
+      <span id="musicText">Play Vibe</span>
+    </button>
+  </div>
+  
   <audio id="bgAudio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 
   <!-- Ambient Background Glows -->
@@ -467,22 +482,6 @@
       </div>
       <h1>To My Best Friend Ever</h1>
       <div class="subtitle-typewriter" id="typewriter"></div>
-
-      <!-- Live Counter Widget -->
-      <div class="counter-widget">
-        <div class="counter-item">
-          <h3 id="daysCount">1200+</h3>
-          <p>Days Together</p>
-        </div>
-        <div class="counter-item">
-          <h3 id="laughsCount">∞</h3>
-          <p>Laughs Shared</p>
-        </div>
-        <div class="counter-item">
-          <h3 id="storiesCount">99+</h3>
-          <p>Crazy Stories</p>
-        </div>
-      </div>
     </header>
 
     <!-- Main Story Section -->
@@ -599,8 +598,12 @@
         <i class="fa-solid fa-envelope-open-text"></i> Open Secret Note
       </button>
 
-      <button class="action-btn" onclick="getRandomMemory()" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);">
-        <i class="fa-solid fa-dice"></i> Random Memory
+      <button class="action-btn" onclick="getRandomRoast()" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);">
+        <i class="fa-solid fa-fire"></i> Best Friend Roast
+      </button>
+
+      <button class="action-btn" onclick="openPinVault()" style="background: linear-gradient(135deg, #7a00ff 0%, #00f2fe 100%);">
+        <i class="fa-solid fa-lock"></i> Hidden PIN Vault
       </button>
 
       <button class="action-btn" onclick="triggerCelebration()" style="background: linear-gradient(135deg, #ff007f 0%, #ff758c 100%);">
@@ -617,7 +620,7 @@
   <!-- Secret Note Modal -->
   <div class="modal-overlay" id="secretModal">
     <div class="modal-box">
-      <span class="close-btn" onclick="closeSecretNote()">&times;</span>
+      <span class="close-btn" onclick="closeModal('secretModal')">&times;</span>
       <h2 style="font-family: 'Outfit'; color: #f472b6; margin-bottom: 1rem;"><i class="fa-solid fa-heart"></i> Secret Message</h2>
       <p style="color: #d1d5db; line-height: 1.6;" id="secretText">
         You're not just a friend; you're family! Thanks for always keeping it real and making life an epic adventure. Never change! 🌟
@@ -625,7 +628,38 @@
     </div>
   </div>
 
+  <!-- Hidden PIN Vault Modal -->
+  <div class="modal-overlay" id="pinModal">
+    <div class="modal-box">
+      <span class="close-btn" onclick="closeModal('pinModal')">&times;</span>
+      <h2 style="font-family: 'Outfit'; color: #00f2fe; margin-bottom: 1rem;"><i class="fa-solid fa-key"></i> Secret Passcode</h2>
+      <p style="color: #9ca3af;">Enter the secret code (Hint: try <b>777</b> or <b>1234</b>)</p>
+      <input type="password" id="pinInput" class="pin-input" placeholder="Enter PIN">
+      <br>
+      <button class="action-btn" onclick="checkPin()">Unlock Vault</button>
+      <p id="pinMsg" style="margin-top:0.8rem; font-weight:600;"></p>
+    </div>
+  </div>
+
   <script>
+    /* Web Audio SFX Generator */
+    function playAudioSFX() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
+      } catch(e) {}
+    }
+
     /* Glowing Custom Cursor */
     const cursor = document.getElementById('cursor');
     document.addEventListener('mousemove', (e) => {
@@ -633,12 +667,25 @@
       cursor.style.top = e.clientY + 'px';
     });
 
+    /* Theme Switcher */
+    const themes = ['', 'theme-vaporwave', 'theme-matrix'];
+    let currentThemeIdx = 0;
+    function cycleTheme() {
+      playAudioSFX();
+      document.body.classList.remove(themes[currentThemeIdx]);
+      currentThemeIdx = (currentThemeIdx + 1) % themes.length;
+      if (themes[currentThemeIdx]) {
+        document.body.classList.add(themes[currentThemeIdx]);
+      }
+    }
+
     /* Background Audio Controls */
     const audio = document.getElementById('bgAudio');
     const musicIcon = document.getElementById('musicIcon');
     const musicText = document.getElementById('musicText');
 
     function toggleAudio() {
+      playAudioSFX();
       if (audio.paused) {
         audio.play();
         musicIcon.className = "fa-solid fa-pause";
@@ -719,29 +766,59 @@
       typeWriter();
     };
 
-    /* Modal & Random Memories */
-    const randomMemories = [
-      "Remember that night we couldn't stop laughing at nothing?",
-      "That moment when we almost got into trouble together! 😂",
-      "Late night drives and deep conversations about life.",
-      "The absolute worst inside joke that nobody else understands!"
+    /* Roasts / Compliments Generator */
+    const roasts = [
+      "You're the only person who can make bad decisions look like absolute art! 🎨",
+      "We are going to be old and crazy together, causing chaos in the retirement home! 👵👴",
+      "Thanks for being the partner-in-crime I never knew I needed! 🔥",
+      "If we ever end up in jail, you're the one who got us there, but I'm the one who suggested it! 😂"
     ];
 
-    function getRandomMemory() {
-      const randIdx = Math.floor(Math.random() * randomMemories.length);
-      document.getElementById('secretText').textContent = randomMemories[randIdx];
-      openSecretNote();
+    function getRandomRoast() {
+      playAudioSFX();
+      const randIdx = Math.floor(Math.random() * roasts.length);
+      document.getElementById('secretText').textContent = roasts[randIdx];
+      openModal('secretModal');
     }
 
+    /* Modal Controls */
     function openSecretNote() {
-      document.getElementById('secretModal').classList.add('active');
+      playAudioSFX();
+      document.getElementById('secretText').textContent = "You're not just a friend; you're family! Thanks for always keeping it real and making life an epic adventure. Never change! 🌟";
+      openModal('secretModal');
     }
-    function closeSecretNote() {
-      document.getElementById('secretModal').classList.remove('active');
+
+    function openPinVault() {
+      playAudioSFX();
+      document.getElementById('pinInput').value = '';
+      document.getElementById('pinMsg').textContent = '';
+      openModal('pinModal');
+    }
+
+    function checkPin() {
+      playAudioSFX();
+      const val = document.getElementById('pinInput').value;
+      if (val === '777' || val === '1234') {
+        document.getElementById('pinMsg').style.color = '#00f2fe';
+        document.getElementById('pinMsg').textContent = "🔓 VAULT UNLOCKED! You are officially the coolest person alive!";
+        triggerCelebration();
+      } else {
+        document.getElementById('pinMsg').style.color = '#ff007f';
+        document.getElementById('pinMsg').textContent = "❌ Wrong PIN! Try 777 or 1234!";
+      }
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+    function closeModal(id) {
+      playAudioSFX();
+      document.getElementById(id).classList.remove('active');
     }
 
     /* Confetti Celebration */
     function triggerCelebration() {
+      playAudioSFX();
       confetti({
         particleCount: 120,
         spread: 80,
@@ -750,4 +827,4 @@
     }
   </script>
 </body>
-          </html>
+</html>
