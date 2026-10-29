@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Crazy Journey & Memories</title>
+  <title>Our Ultimate Story & Crazy Memories</title>
   
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,9 +15,9 @@
 
   <style>
     :root {
-      --bg-dark: #0a0a12;
+      --bg-dark: #070710;
       --card-bg: rgba(255, 255, 255, 0.04);
-      --card-border: rgba(255, 255, 255, 0.1);
+      --card-border: rgba(255, 255, 255, 0.12);
       --primary-glow: #8a2be2;
       --secondary-glow: #ff007f;
       --accent-cyan: #00f2fe;
@@ -41,20 +41,58 @@
       min-height: 100vh;
     }
 
+    /* Custom Glowing Cursor */
+    .custom-cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(0, 242, 254, 0.6);
+      box-shadow: 0 0 15px var(--accent-cyan);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: transform 0.05s ease-out, background 0.2s ease;
+      z-index: 9999;
+    }
+
+    /* Floating Music Toggle Button */
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      color: #fff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .music-btn:hover {
+      background: rgba(255, 0, 127, 0.3);
+      transform: scale(1.05);
+    }
+
     /* Ambient Glow Backgrounds */
     .glow-bg {
       position: fixed;
-      width: 400px;
-      height: 400px;
+      width: 450px;
+      height: 450px;
       border-radius: 50%;
-      filter: blur(140px);
+      filter: blur(150px);
       z-index: -1;
-      opacity: 0.5;
+      opacity: 0.45;
       pointer-events: none;
     }
     .glow-1 { top: -100px; left: -100px; background: var(--primary-glow); }
     .glow-2 { bottom: -100px; right: -100px; background: var(--secondary-glow); }
-    .glow-3 { top: 40%; left: 30%; background: var(--accent-cyan); opacity: 0.25; }
+    .glow-3 { top: 40%; left: 30%; background: var(--accent-cyan); opacity: 0.2; }
 
     /* Floating Particles Canvas */
     #particles-canvas {
@@ -69,7 +107,7 @@
 
     /* Layout & Container */
     .container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 2rem 1.5rem 5rem;
     }
@@ -77,7 +115,7 @@
     /* Header & Hero */
     header {
       text-align: center;
-      padding: 4rem 1rem 3rem;
+      padding: 4rem 1rem 2rem;
     }
 
     .badge {
@@ -113,14 +151,40 @@
       min-height: 2rem;
     }
 
+    /* Friendship Counter Widget */
+    .counter-widget {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 1.5rem;
+      max-width: 650px;
+      margin: 2rem auto 0;
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .counter-item h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      color: #00f2fe;
+    }
+    .counter-item p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
     /* Section Styling */
     section {
-      margin-top: 4rem;
+      margin-top: 5rem;
     }
 
     .section-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 700;
       text-align: center;
       margin-bottom: 2.5rem;
@@ -174,6 +238,58 @@
       background: linear-gradient(120deg, rgba(244, 114, 182, 0.2) 0%, rgba(138, 43, 226, 0.2) 100%);
       padding: 0.2rem 0.5rem;
       border-radius: 6px;
+    }
+
+    /* Video Memories Gallery Section */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .video-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .video-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      border-color: rgba(255, 0, 127, 0.4);
+      box-shadow: 0 15px 35px rgba(255, 0, 127, 0.2);
+    }
+
+    .video-wrapper {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 16 / 9;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .video-info {
+      padding: 1rem 0.5rem 0.5rem;
+    }
+    .video-info h3 {
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 0.3rem;
+    }
+    .video-info p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
     }
 
     /* Timeline Section */
@@ -241,8 +357,8 @@
       background: linear-gradient(135deg, #8a2be2 0%, #ff007f 100%);
       color: #fff;
       border: none;
-      padding: 1rem 2.5rem;
-      font-size: 1.1rem;
+      padding: 1rem 2.2rem;
+      font-size: 1rem;
       font-weight: 700;
       border-radius: 9999px;
       cursor: pointer;
@@ -262,8 +378,8 @@
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -278,7 +394,7 @@
       pointer-events: auto;
     }
     .modal-box {
-      background: #12121f;
+      background: #121224;
       border: 1px solid var(--card-border);
       padding: 2.5rem;
       border-radius: 24px;
@@ -323,12 +439,23 @@
 </head>
 <body>
 
-  <!-- Ambient background lighting -->
+  <!-- Custom Cursor Glow -->
+  <div class="custom-cursor" id="cursor"></div>
+
+  <!-- Background Music Controls -->
+  <button class="music-btn" onclick="toggleAudio()">
+    <i class="fa-solid fa-music" id="musicIcon"></i>
+    <span id="musicText">Play Vibe</span>
+  </button>
+  <!-- Background Audio File Link -->
+  <audio id="bgAudio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+  <!-- Ambient Background Glows -->
   <div class="glow-bg glow-1"></div>
   <div class="glow-bg glow-2"></div>
   <div class="glow-bg glow-3"></div>
 
-  <!-- Particle canvas -->
+  <!-- Interactive Floating Particles -->
   <canvas id="particles-canvas"></canvas>
 
   <div class="container">
@@ -340,6 +467,22 @@
       </div>
       <h1>To My Best Friend Ever</h1>
       <div class="subtitle-typewriter" id="typewriter"></div>
+
+      <!-- Live Counter Widget -->
+      <div class="counter-widget">
+        <div class="counter-item">
+          <h3 id="daysCount">1200+</h3>
+          <p>Days Together</p>
+        </div>
+        <div class="counter-item">
+          <h3 id="laughsCount">∞</h3>
+          <p>Laughs Shared</p>
+        </div>
+        <div class="counter-item">
+          <h3 id="storiesCount">99+</h3>
+          <p>Crazy Stories</p>
+        </div>
+      </div>
     </header>
 
     <!-- Main Story Section -->
@@ -350,8 +493,6 @@
         <div class="story-content">
           
           <!-- 🌟🌟🌟 PLACE YOUR CUSTOM STORY HERE 🌟🌟🌟 -->
-          <!-- Replace or edit the paragraphs below with the actual time & memories you spent together! -->
-          
           <p>
             Looking back at everything we've been through, it feels crazy how fast time flies. 
             From random late-night conversations to spontaneous adventures, every single moment 
@@ -372,10 +513,48 @@
           <p>
             Here is to all the memories we've made so far, and to the hundreds of new crazy stories we're yet to create together! 🚀🔥
           </p>
-
           <!-- 🌟🌟🌟 END OF STORY SECTION 🌟🌟🌟 -->
 
         </div>
+      </div>
+    </section>
+
+    <!-- 🎥 VIDEO MEMORIES SECTION -->
+    <section id="video-section">
+      <h2 class="section-title"><i class="fa-solid fa-film"></i> Video Vault</h2>
+      
+      <div class="video-grid">
+        
+        <!-- Video Card 1 -->
+        <div class="video-card">
+          <div class="video-wrapper">
+            <!-- 🌟 Replace 'video1.mp4' with your video file name or URL -->
+            <video controls preload="metadata">
+              <source src="video1.mp4" type="video/mp4">
+              Your browser does not support video playback.
+            </video>
+          </div>
+          <div class="video-info">
+            <h3>The Unforgettable Day 🎬</h3>
+            <p>That one insane moment we captured on camera!</p>
+          </div>
+        </div>
+
+        <!-- Video Card 2 -->
+        <div class="video-card">
+          <div class="video-wrapper">
+            <!-- 🌟 Replace 'video2.mp4' with your video file name or URL -->
+            <video controls preload="metadata">
+              <source src="video2.mp4" type="video/mp4">
+              Your browser does not support video playback.
+            </video>
+          </div>
+          <div class="video-info">
+            <h3>Pure Madness & Laughs 🤪</h3>
+            <p>Can't watch this without dying of laughter.</p>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -411,7 +590,7 @@
       </div>
     </section>
 
-    <!-- Interactive Vault Section -->
+    <!-- Interactive Vault & Buttons Section -->
     <section class="vault-section">
       <h2 class="section-title"><i class="fa-solid fa-vault"></i> Friendship Vault</h2>
       <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Click below to unlock secret notes and celebrate our bond!</p>
@@ -420,7 +599,11 @@
         <i class="fa-solid fa-envelope-open-text"></i> Open Secret Note
       </button>
 
-      <button class="action-btn" onclick="triggerCelebration()" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);">
+      <button class="action-btn" onclick="getRandomMemory()" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);">
+        <i class="fa-solid fa-dice"></i> Random Memory
+      </button>
+
+      <button class="action-btn" onclick="triggerCelebration()" style="background: linear-gradient(135deg, #ff007f 0%, #ff758c 100%);">
         <i class="fa-solid fa-party-horn"></i> Celebrate Bond!
       </button>
     </section>
@@ -443,6 +626,30 @@
   </div>
 
   <script>
+    /* Glowing Custom Cursor */
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+
+    /* Background Audio Controls */
+    const audio = document.getElementById('bgAudio');
+    const musicIcon = document.getElementById('musicIcon');
+    const musicText = document.getElementById('musicText');
+
+    function toggleAudio() {
+      if (audio.paused) {
+        audio.play();
+        musicIcon.className = "fa-solid fa-pause";
+        musicText.textContent = "Pause Vibe";
+      } else {
+        audio.pause();
+        musicIcon.className = "fa-solid fa-music";
+        musicText.textContent = "Play Vibe";
+      }
+    }
+
     /* Floating Particles Background */
     const canvas = document.getElementById('particles-canvas');
     const ctx = canvas.getContext('2d');
@@ -497,7 +704,7 @@
     animateParticles();
 
     /* Typewriter Effect */
-    const textToType = "A collection of epic memories, endless laughs, and crazy adventures.";
+    const textToType = "A collection of epic memories, video moments, endless laughs, and crazy adventures.";
     let typeIdx = 0;
     const typewriterEl = document.getElementById('typewriter');
 
@@ -505,14 +712,27 @@
       if (typeIdx < textToType.length) {
         typewriterEl.textContent += textToType.charAt(typeIdx);
         typeIdx++;
-        setTimeout(typeWriter, 40);
+        setTimeout(typeWriter, 35);
       }
     }
     window.onload = () => {
       typeWriter();
     };
 
-    /* Modal Controls */
+    /* Modal & Random Memories */
+    const randomMemories = [
+      "Remember that night we couldn't stop laughing at nothing?",
+      "That moment when we almost got into trouble together! 😂",
+      "Late night drives and deep conversations about life.",
+      "The absolute worst inside joke that nobody else understands!"
+    ];
+
+    function getRandomMemory() {
+      const randIdx = Math.floor(Math.random() * randomMemories.length);
+      document.getElementById('secretText').textContent = randomMemories[randIdx];
+      openSecretNote();
+    }
+
     function openSecretNote() {
       document.getElementById('secretModal').classList.add('active');
     }
@@ -523,11 +743,11 @@
     /* Confetti Celebration */
     function triggerCelebration() {
       confetti({
-        particleCount: 100,
-        spread: 70,
+        particleCount: 120,
+        spread: 80,
         origin: { y: 0.6 }
       });
     }
   </script>
 </body>
-    </html>
+          </html>
