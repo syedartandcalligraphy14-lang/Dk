@@ -8,7 +8,7 @@
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;700&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
   <!-- Canvas Confetti for Celebration -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -116,7 +116,7 @@
     .glow-2 { bottom: -100px; right: -100px; background: var(--secondary-glow); }
     .glow-3 { top: 40%; left: 30%; background: var(--accent-cyan); opacity: 0.2; }
 
-    /* Floating Particles Canvas */
+    /* Floating Particles & Stars Canvas */
     #particles-canvas {
       position: fixed;
       top: 0;
@@ -167,10 +167,42 @@
       margin-bottom: 1.5rem;
     }
 
+    /* Binary Cipher Decoder Box */
+    .binary-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 1.2rem;
+      max-width: 650px;
+      margin: 1.5rem auto;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
+    }
+
+    .binary-code {
+      font-family: 'Fira Code', monospace;
+      color: var(--accent-cyan);
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      letter-spacing: 2px;
+      margin-bottom: 0.8rem;
+      word-break: break-all;
+    }
+
+    .decoded-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 0 0 20px #ff007f, 0 0 40px #00f2fe;
+      display: none;
+      margin-top: 0.5rem;
+    }
+
     .subtitle-typewriter {
       font-size: 1.25rem;
       color: var(--text-muted);
       min-height: 2rem;
+      margin-top: 1rem;
     }
 
     /* Section Styling */
@@ -236,7 +268,7 @@
       border-radius: 6px;
     }
 
-    /* Video Memories Gallery Section with 3D Tilt */
+    /* Video Memories Gallery Section */
     .video-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -244,22 +276,48 @@
       margin-top: 2rem;
     }
 
-    .video-card {
+    /* 3D Flip Memory Card */
+    .flip-card {
+      background-color: transparent;
+      perspective: 1000px;
+      min-height: 280px;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 20px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       backdrop-filter: blur(16px);
-      border-radius: 20px;
       padding: 1rem;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      transform-style: preserve-3d;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .video-card:hover {
-      transform: translateY(-8px) rotateX(4deg) rotateY(-4deg);
+    .flip-card-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(255, 0, 127, 0.3));
       border-color: rgba(255, 0, 127, 0.5);
-      box-shadow: 0 20px 40px rgba(255, 0, 127, 0.25);
+      align-items: center;
     }
 
     .video-wrapper {
@@ -277,7 +335,7 @@
     }
 
     .video-info {
-      padding: 1rem 0.5rem 0.5rem;
+      padding: 0.8rem 0.5rem 0.2rem;
     }
     .video-info h3 {
       font-size: 1.1rem;
@@ -287,6 +345,54 @@
     .video-info p {
       font-size: 0.875rem;
       color: var(--text-muted);
+    }
+
+    /* Live Interactive Memory Wall */
+    .memory-wall {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .wall-input-group {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .wall-input {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 0.8rem 1.2rem;
+      border-radius: 9999px;
+      outline: none;
+      font-size: 0.95rem;
+    }
+
+    .wall-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    .wall-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid var(--accent-cyan);
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     /* Timeline Section */
@@ -470,7 +576,7 @@
   <div class="glow-bg glow-2"></div>
   <div class="glow-bg glow-3"></div>
 
-  <!-- Interactive Floating Particles -->
+  <!-- Dynamic Particles & Shooting Stars Canvas -->
   <canvas id="particles-canvas"></canvas>
 
   <div class="container">
@@ -480,7 +586,20 @@
       <div class="badge">
         <i class="fa-solid fa-sparkles"></i> Unbreakable Bond
       </div>
+      
       <h1>To My Best Friend Ever</h1>
+
+      <!-- Binary Cipher Box -->
+      <div class="binary-box">
+        <div class="binary-code" id="binaryStr">
+          01001101 01110101 01110100 01100001 01110011 01101001 01101101
+        </div>
+        <button class="action-btn" onclick="decodeBinary()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">
+          <i class="fa-solid fa-terminal"></i> Decode Cipher
+        </button>
+        <div class="decoded-name" id="decodedName">✨ MUTASIM ✨</div>
+      </div>
+
       <div class="subtitle-typewriter" id="typewriter"></div>
     </header>
 
@@ -518,42 +637,78 @@
       </div>
     </section>
 
-    <!-- 🎥 VIDEO MEMORIES SECTION -->
+    <!-- 🎥 VIDEO MEMORIES SECTION WITH 3D FLIP CARDS -->
     <section id="video-section">
-      <h2 class="section-title"><i class="fa-solid fa-film"></i> Video Vault</h2>
+      <h2 class="section-title"><i class="fa-solid fa-film"></i> Video Vault (Click Card to Flip)</h2>
       
       <div class="video-grid">
         
         <!-- Video Card 1 -->
-        <div class="video-card">
-          <div class="video-wrapper">
-            <!-- 🌟 Replace 'video1.mp4' with your video file name or URL -->
-            <video controls preload="metadata">
-              <source src="video1.mp4" type="video/mp4">
-              Your browser does not support video playback.
-            </video>
-          </div>
-          <div class="video-info">
-            <h3>The Unforgettable Day 🎬</h3>
-            <p>That one insane moment we captured on camera!</p>
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="video-wrapper">
+                <video controls preload="metadata" onclick="event.stopPropagation()">
+                  <source src="video1.mp4" type="video/mp4">
+                  Your browser does not support video playback.
+                </video>
+              </div>
+              <div class="video-info">
+                <h3>The Unforgettable Day 🎬</h3>
+                <p>That one insane moment we captured on camera! (Click card to flip)</p>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <h3 style="color:#fff; font-size:1.4rem; margin-bottom:0.5rem;"><i class="fa-solid fa-quote-left"></i> Secret Note</h3>
+              <p style="color:#e5e7eb; line-height:1.6;">"This was literally one of the best days ever. Zero regrets, 100% pure core memory!"</p>
+            </div>
           </div>
         </div>
 
         <!-- Video Card 2 -->
-        <div class="video-card">
-          <div class="video-wrapper">
-            <!-- 🌟 Replace 'video2.mp4' with your video file name or URL -->
-            <video controls preload="metadata">
-              <source src="video2.mp4" type="video/mp4">
-              Your browser does not support video playback.
-            </video>
-          </div>
-          <div class="video-info">
-            <h3>Pure Madness & Laughs 🤪</h3>
-            <p>Can't watch this without dying of laughter.</p>
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <div class="video-wrapper">
+                <video controls preload="metadata" onclick="event.stopPropagation()">
+                  <source src="video2.mp4" type="video/mp4">
+                  Your browser does not support video playback.
+                </video>
+              </div>
+              <div class="video-info">
+                <h3>Pure Madness & Laughs 🤪</h3>
+                <p>Can't watch this without dying of laughter! (Click card to flip)</p>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <h3 style="color:#fff; font-size:1.4rem; margin-bottom:0.5rem;"><i class="fa-solid fa-face-laugh-squint"></i> Inside Joke</h3>
+              <p style="color:#e5e7eb; line-height:1.6;">"If anyone outside saw us this day, they'd think we completely lost our minds!"</p>
+            </div>
           </div>
         </div>
 
+      </div>
+    </section>
+
+    <!-- LIVE MEMORY & INSIDE JOKE WALL -->
+    <section id="wall-section">
+      <h2 class="section-title"><i class="fa-solid fa-comments"></i> Live Memory Wall</h2>
+      
+      <div class="memory-wall">
+        <div class="wall-input-group">
+          <input type="text" id="wallInput" class="wall-input" placeholder="Type a new inside joke or memory...">
+          <button class="action-btn" onclick="addMemoryToWall()" style="padding: 0.8rem 1.5rem;">Add Note</button>
+        </div>
+        <div class="wall-list" id="wallList">
+          <div class="wall-item">
+            <span>🔥 "The legendary midnight snacks run!"</span>
+            <i class="fa-solid fa-heart" style="color: #ff007f;"></i>
+          </div>
+          <div class="wall-item">
+            <span>😂 "That hilarious moment nobody else will ever understand."</span>
+            <i class="fa-solid fa-star" style="color: #00f2fe;"></i>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -642,6 +797,28 @@
   </div>
 
   <script>
+    /* Decode Binary Function */
+    function decodeBinary() {
+      playAudioSFX();
+      const nameEl = document.getElementById('decodedName');
+      nameEl.style.display = 'block';
+      triggerCelebration();
+    }
+
+    /* Add Note to Live Memory Wall */
+    function addMemoryToWall() {
+      const input = document.getElementById('wallInput');
+      if (input.value.trim() !== '') {
+        playAudioSFX();
+        const list = document.getElementById('wallList');
+        const item = document.createElement('div');
+        item.className = 'wall-item';
+        item.innerHTML = `<span>✨ "${input.value.trim()}"</span><i class="fa-solid fa-sparkles" style="color: #00f2fe;"></i>`;
+        list.prepend(item);
+        input.value = '';
+      }
+    }
+
     /* Web Audio SFX Generator */
     function playAudioSFX() {
       try {
@@ -679,10 +856,11 @@
       }
     }
 
-    /* Background Audio Controls */
+    /* Background Audio & Spectrum Pulse */
     const audio = document.getElementById('bgAudio');
     const musicIcon = document.getElementById('musicIcon');
     const musicText = document.getElementById('musicText');
+    let isMusicPlaying = false;
 
     function toggleAudio() {
       playAudioSFX();
@@ -690,17 +868,20 @@
         audio.play();
         musicIcon.className = "fa-solid fa-pause";
         musicText.textContent = "Pause Vibe";
+        isMusicPlaying = true;
       } else {
         audio.pause();
         musicIcon.className = "fa-solid fa-music";
         musicText.textContent = "Play Vibe";
+        isMusicPlaying = false;
       }
     }
 
-    /* Floating Particles Background */
+    /* Floating Particles & Shooting Stars Background Canvas */
     const canvas = document.getElementById('particles-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
+    let shootingStars = [];
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
@@ -714,21 +895,52 @@
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 2 + 1;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.speedY = (Math.random() - 0.5) * 0.5;
+        this.baseSpeedX = (Math.random() - 0.5) * 0.5;
+        this.baseSpeedY = (Math.random() - 0.5) * 0.5;
         this.opacity = Math.random() * 0.5 + 0.2;
       }
       update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        let speedMult = isMusicPlaying ? 1.8 : 1.0;
+        this.x += this.baseSpeedX * speedMult;
+        this.y += this.baseSpeedY * speedMult;
+        if (this.x < 0 || this.x > canvas.width) this.baseSpeedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.baseSpeedY *= -1;
       }
       draw() {
         ctx.fillStyle = `rgba(244, 114, 182, ${this.opacity})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
+      }
+    }
+
+    class ShootingStar {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = 0;
+        this.len = Math.random() * 80 + 40;
+        this.speed = Math.random() * 10 + 6;
+        this.size = Math.random() * 1 + 0.1;
+        this.active = true;
+      }
+      update() {
+        this.x -= this.speed;
+        this.y += this.speed;
+        if (this.x < 0 || this.y > canvas.height) {
+          this.active = false;
+        }
+      }
+      draw() {
+        if (!this.active) return;
+        ctx.strokeStyle = 'rgba(0, 242, 254, 0.6)';
+        ctx.lineWidth = this.size;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x + this.len, this.y - this.len);
+        ctx.stroke();
       }
     }
 
@@ -742,10 +954,22 @@
 
     function animateParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
       particles.forEach(p => {
         p.update();
         p.draw();
       });
+
+      if (Math.random() < 0.015) {
+        shootingStars.push(new ShootingStar());
+      }
+
+      shootingStars.forEach((star, index) => {
+        star.update();
+        star.draw();
+        if (!star.active) shootingStars.splice(index, 1);
+      });
+
       requestAnimationFrame(animateParticles);
     }
     animateParticles();
@@ -800,7 +1024,7 @@
       const val = document.getElementById('pinInput').value;
       if (val === '777' || val === '1234') {
         document.getElementById('pinMsg').style.color = '#00f2fe';
-        document.getElementById('pinMsg').textContent = "🔓 VAULT UNLOCKED! You are officially the coolest person alive!";
+        document.getElementById('pinMsg').textContent = "🔓 VAULT UNLOCKED! Mutasim is officially the coolest person alive!";
         triggerCelebration();
       } else {
         document.getElementById('pinMsg').style.color = '#ff007f';
