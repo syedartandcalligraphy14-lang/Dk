@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Ultimate Story & Crazy Memories</title>
+  <title>Our Ultimate Story & Secret Vault</title>
   
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;700&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-  <!-- Canvas Confetti for Celebration -->
+  <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -25,7 +25,6 @@
       --text-muted: #9ca3af;
     }
 
-    /* Alternate Themes */
     body.theme-vaporwave {
       --bg-dark: #0f051d;
       --primary-glow: #ff0055;
@@ -116,7 +115,7 @@
     .glow-2 { bottom: -100px; right: -100px; background: var(--secondary-glow); }
     .glow-3 { top: 40%; left: 30%; background: var(--accent-cyan); opacity: 0.2; }
 
-    /* Floating Particles & Stars Canvas */
+    /* Particles Canvas */
     #particles-canvas {
       position: fixed;
       top: 0;
@@ -127,7 +126,7 @@
       pointer-events: none;
     }
 
-    /* Layout & Container */
+    /* Container */
     .container {
       max-width: 1100px;
       margin: 0 auto;
@@ -165,44 +164,49 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 1.5rem;
-    }
-
-    /* Binary Cipher Decoder Box */
-    .binary-box {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(0, 242, 254, 0.3);
-      backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 1.2rem;
-      max-width: 650px;
-      margin: 1.5rem auto;
-      box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
-    }
-
-    .binary-code {
-      font-family: 'Fira Code', monospace;
-      color: var(--accent-cyan);
-      font-size: clamp(0.85rem, 2vw, 1.1rem);
-      letter-spacing: 2px;
-      margin-bottom: 0.8rem;
-      word-break: break-all;
-    }
-
-    .decoded-name {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
-      font-weight: 800;
-      color: #fff;
-      text-shadow: 0 0 20px #ff007f, 0 0 40px #00f2fe;
-      display: none;
-      margin-top: 0.5rem;
+      text-shadow: 0 0 20px rgba(244, 114, 182, 0.2);
     }
 
     .subtitle-typewriter {
       font-size: 1.25rem;
       color: var(--text-muted);
       min-height: 2rem;
-      margin-top: 1rem;
+    }
+
+    /* FEATURE 1: Binary Cipher Terminal Box */
+    .cipher-terminal {
+      background: rgba(10, 10, 20, 0.85);
+      border: 1px solid var(--accent-cyan);
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.2);
+      border-radius: 16px;
+      padding: 1.8rem;
+      max-width: 750px;
+      margin: 2.5rem auto 0;
+      text-align: left;
+      font-family: 'Fira Code', monospace;
+      position: relative;
+    }
+
+    .cipher-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+    }
+
+    .cipher-code {
+      font-size: 1.1rem;
+      color: #00ffcc;
+      word-break: break-all;
+      letter-spacing: 2px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 3px solid #00f2fe;
     }
 
     /* Section Styling */
@@ -223,7 +227,7 @@
     }
     .section-title i { color: #f472b6; }
 
-    /* Story Section - Modern Glass Card */
+    /* Story Card */
     .story-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -268,19 +272,18 @@
       border-radius: 6px;
     }
 
-    /* Video Memories Gallery Section */
-    .video-grid {
+    /* FEATURE 2: 3D Holographic Flip Cards */
+    .photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 2rem;
       margin-top: 2rem;
     }
 
-    /* 3D Flip Memory Card */
     .flip-card {
       background-color: transparent;
+      height: 280px;
       perspective: 1000px;
-      min-height: 280px;
     }
 
     .flip-card-inner {
@@ -293,7 +296,7 @@
       cursor: pointer;
     }
 
-    .flip-card.flipped .flip-card-inner {
+    .flip-card:hover .flip-card-inner {
       transform: rotateY(180deg);
     }
 
@@ -304,20 +307,50 @@
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
       border-radius: 20px;
-      background: var(--card-bg);
       border: 1px solid var(--card-border);
       backdrop-filter: blur(16px);
-      padding: 1rem;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: center;
     }
 
+    .flip-card-front {
+      background: var(--card-bg);
+      color: white;
+    }
+
     .flip-card-back {
-      transform: rotateY(180deg);
       background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(255, 0, 127, 0.3));
+      color: white;
+      transform: rotateY(180deg);
+      border-color: rgba(255, 0, 127, 0.4);
+    }
+
+    /* Video Section */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .video-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .video-card:hover {
+      transform: translateY(-8px);
       border-color: rgba(255, 0, 127, 0.5);
-      align-items: center;
+      box-shadow: 0 20px 40px rgba(255, 0, 127, 0.25);
     }
 
     .video-wrapper {
@@ -335,64 +368,67 @@
     }
 
     .video-info {
-      padding: 0.8rem 0.5rem 0.2rem;
-    }
-    .video-info h3 {
-      font-size: 1.1rem;
-      color: #fff;
-      margin-bottom: 0.3rem;
-    }
-    .video-info p {
-      font-size: 0.875rem;
-      color: var(--text-muted);
+      padding: 1rem 0.5rem 0.5rem;
     }
 
-    /* Live Interactive Memory Wall */
-    .memory-wall {
+    /* FEATURE 3: Voice Note Waveform Player */
+    .voice-note-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       backdrop-filter: blur(16px);
-      border-radius: 24px;
+      border-radius: 20px;
       padding: 2rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .wall-input-group {
+      max-width: 650px;
+      margin: 2rem auto 0;
       display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .wall-input {
-      flex: 1;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--card-border);
-      color: #fff;
-      padding: 0.8rem 1.2rem;
-      border-radius: 9999px;
-      outline: none;
-      font-size: 0.95rem;
-    }
-
-    .wall-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      max-height: 250px;
-      overflow-y: auto;
-    }
-
-    .wall-item {
-      background: rgba(255, 255, 255, 0.05);
-      border-left: 3px solid var(--accent-cyan);
-      padding: 0.8rem 1.2rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      color: #e5e7eb;
-      display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 1.5rem;
+    }
+
+    .play-voice-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      border: none;
+      color: #000;
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .play-voice-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .waveform-bars {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 40px;
+      flex-grow: 1;
+    }
+
+    .bar {
+      width: 4px;
+      height: 20%;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      transition: height 0.2s ease, background 0.2s ease;
+    }
+
+    .waveform-bars.playing .bar {
+      background: #00f2fe;
+      animation: wave 1s infinite ease-in-out alternate;
+    }
+
+    @keyframes wave {
+      0% { height: 15%; }
+      100% { height: 90%; }
     }
 
     /* Timeline Section */
@@ -442,15 +478,6 @@
       padding: 1.5rem;
       border-radius: 16px;
     }
-    .timeline-box h3 {
-      font-size: 1.2rem;
-      color: #fff;
-      margin-bottom: 0.5rem;
-    }
-    .timeline-box p {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-    }
 
     /* Interactive Vault & Buttons */
     .vault-section {
@@ -477,7 +504,7 @@
       box-shadow: 0 15px 30px rgba(255, 0, 127, 0.6);
     }
 
-    /* Modal Popups & Pin Box */
+    /* Modals */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -532,7 +559,6 @@
       outline: none;
     }
 
-    /* Footer */
     footer {
       text-align: center;
       margin-top: 5rem;
@@ -542,7 +568,6 @@
       font-size: 0.9rem;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
       .timeline::after { left: 31px; }
       .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
@@ -558,7 +583,7 @@
   <!-- Custom Cursor Glow -->
   <div class="custom-cursor" id="cursor"></div>
 
-  <!-- Top Floating Controls Bar -->
+  <!-- Top Controls -->
   <div class="controls-bar">
     <button class="top-btn" onclick="cycleTheme()">
       <i class="fa-solid fa-palette"></i> Theme
@@ -571,12 +596,12 @@
   
   <audio id="bgAudio" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 
-  <!-- Ambient Background Glows -->
+  <!-- Ambient Glows -->
   <div class="glow-bg glow-1"></div>
   <div class="glow-bg glow-2"></div>
   <div class="glow-bg glow-3"></div>
 
-  <!-- Dynamic Particles & Shooting Stars Canvas -->
+  <!-- Interactive Constellation Canvas -->
   <canvas id="particles-canvas"></canvas>
 
   <div class="container">
@@ -584,23 +609,22 @@
     <!-- Hero Header -->
     <header>
       <div class="badge">
-        <i class="fa-solid fa-sparkles"></i> Unbreakable Bond
+        <i class="fa-solid fa-shield-halved"></i> Classified Vault Access
       </div>
-      
       <h1>To My Best Friend Ever</h1>
+      <div class="subtitle-typewriter" id="typewriter"></div>
 
-      <!-- Binary Cipher Box -->
-      <div class="binary-box">
-        <div class="binary-code" id="binaryStr">
+      <!-- FEATURE 1: Binary Cipher Target Terminal (Contains Binary Secret Code) -->
+      <div class="cipher-terminal">
+        <div class="cipher-header">
+          <span><i class="fa-solid fa-terminal"></i> ENCRYPTED_IDENTITY_CIPHER.bin</span>
+          <span>STATUS: LOCKED</span>
+        </div>
+        <p style="font-size: 0.85rem; color: #9ca3af; margin-bottom: 0.5rem;">Copy & Decode this binary string to reveal the owner of this vault:</p>
+        <div class="cipher-code">
           01001101 01110101 01110100 01100001 01110011 01101001 01101101
         </div>
-        <button class="action-btn" onclick="decodeBinary()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">
-          <i class="fa-solid fa-terminal"></i> Decode Cipher
-        </button>
-        <div class="decoded-name" id="decodedName">✨ MUTASIM ✨</div>
       </div>
-
-      <div class="subtitle-typewriter" id="typewriter"></div>
     </header>
 
     <!-- Main Story Section -->
@@ -610,7 +634,7 @@
       <div class="story-card">
         <div class="story-content">
           
-          <!-- 🌟🌟🌟 PLACE YOUR CUSTOM STORY HERE 🌟🌟🌟 -->
+          <!-- 🌟🌟🌟 PLACE YOUR CUSTOM STORY PARAGRAPHS HERE 🌟🌟🌟 -->
           <p>
             Looking back at everything we've been through, it feels crazy how fast time flies. 
             From random late-night conversations to spontaneous adventures, every single moment 
@@ -637,78 +661,102 @@
       </div>
     </section>
 
-    <!-- 🎥 VIDEO MEMORIES SECTION WITH 3D FLIP CARDS -->
-    <section id="video-section">
-      <h2 class="section-title"><i class="fa-solid fa-film"></i> Video Vault (Click Card to Flip)</h2>
+    <!-- FEATURE 2: 3D Holographic Flip Cards Section -->
+    <section id="hologram-cards">
+      <h2 class="section-title"><i class="fa-solid fa-clone"></i> Memory Holograms</h2>
+      <p style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem;">Hover or tap the cards to reveal hidden notes!</p>
       
-      <div class="video-grid">
-        
-        <!-- Video Card 1 -->
-        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="photo-grid">
+        <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <div class="video-wrapper">
-                <video controls preload="metadata" onclick="event.stopPropagation()">
-                  <source src="video1.mp4" type="video/mp4">
-                  Your browser does not support video playback.
-                </video>
-              </div>
-              <div class="video-info">
-                <h3>The Unforgettable Day 🎬</h3>
-                <p>That one insane moment we captured on camera! (Click card to flip)</p>
-              </div>
+              <i class="fa-solid fa-bolt" style="font-size: 2.5rem; color: #00f2fe; margin-bottom: 1rem;"></i>
+              <h3>The Chaos Code</h3>
+              <p style="font-size: 0.85rem; color: #9ca3af; margin-top: 0.5rem;">Tap to flip</p>
             </div>
             <div class="flip-card-back">
-              <h3 style="color:#fff; font-size:1.4rem; margin-bottom:0.5rem;"><i class="fa-solid fa-quote-left"></i> Secret Note</h3>
-              <p style="color:#e5e7eb; line-height:1.6;">"This was literally one of the best days ever. Zero regrets, 100% pure core memory!"</p>
+              <h3>Pure Energy ⚡</h3>
+              <p style="font-size: 0.95rem; margin-top: 0.5rem;">No matter the situation, we always end up creating the best stories!</p>
             </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fa-solid fa-crown" style="font-size: 2.5rem; color: #f472b6; margin-bottom: 1rem;"></i>
+              <h3>Unmatched Vibe</h3>
+              <p style="font-size: 0.85rem; color: #9ca3af; margin-top: 0.5rem;">Tap to flip</p>
+            </div>
+            <div class="flip-card-back">
+              <h3>Legendary Bond 👑</h3>
+              <p style="font-size: 0.95rem; margin-top: 0.5rem;">A rare friendship that stands strong through thick & thin.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🎥 VIDEO MEMORIES SECTION -->
+    <section id="video-section">
+      <h2 class="section-title"><i class="fa-solid fa-film"></i> Video Vault</h2>
+      
+      <div class="video-grid">
+        <!-- Video Card 1 -->
+        <div class="video-card">
+          <div class="video-wrapper">
+            <!-- 🌟 Replace 'video1.mp4' with your video file -->
+            <video controls preload="metadata">
+              <source src="video1.mp4" type="video/mp4">
+              Your browser does not support video playback.
+            </video>
+          </div>
+          <div class="video-info">
+            <h3 style="color: #fff;">The Unforgettable Day 🎬</h3>
+            <p style="color: var(--text-muted); font-size: 0.875rem;">That iconic moment captured on camera!</p>
           </div>
         </div>
 
         <!-- Video Card 2 -->
-        <div class="flip-card" onclick="this.classList.toggle('flipped')">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <div class="video-wrapper">
-                <video controls preload="metadata" onclick="event.stopPropagation()">
-                  <source src="video2.mp4" type="video/mp4">
-                  Your browser does not support video playback.
-                </video>
-              </div>
-              <div class="video-info">
-                <h3>Pure Madness & Laughs 🤪</h3>
-                <p>Can't watch this without dying of laughter! (Click card to flip)</p>
-              </div>
-            </div>
-            <div class="flip-card-back">
-              <h3 style="color:#fff; font-size:1.4rem; margin-bottom:0.5rem;"><i class="fa-solid fa-face-laugh-squint"></i> Inside Joke</h3>
-              <p style="color:#e5e7eb; line-height:1.6;">"If anyone outside saw us this day, they'd think we completely lost our minds!"</p>
-            </div>
+        <div class="video-card">
+          <div class="video-wrapper">
+            <!-- 🌟 Replace 'video2.mp4' with your video file -->
+            <video controls preload="metadata">
+              <source src="video2.mp4" type="video/mp4">
+              Your browser does not support video playback.
+            </video>
+          </div>
+          <div class="video-info">
+            <h3 style="color: #fff;">Pure Madness & Laughs 🤪</h3>
+            <p style="color: var(--text-muted); font-size: 0.875rem;">Can't watch this without dying of laughter.</p>
           </div>
         </div>
-
       </div>
     </section>
 
-    <!-- LIVE MEMORY & INSIDE JOKE WALL -->
-    <section id="wall-section">
-      <h2 class="section-title"><i class="fa-solid fa-comments"></i> Live Memory Wall</h2>
+    <!-- FEATURE 3: Voice Note Waveform Section -->
+    <section id="voicenote-section">
+      <h2 class="section-title"><i class="fa-solid fa-microphone-lines"></i> Voice Note</h2>
       
-      <div class="memory-wall">
-        <div class="wall-input-group">
-          <input type="text" id="wallInput" class="wall-input" placeholder="Type a new inside joke or memory...">
-          <button class="action-btn" onclick="addMemoryToWall()" style="padding: 0.8rem 1.5rem;">Add Note</button>
-        </div>
-        <div class="wall-list" id="wallList">
-          <div class="wall-item">
-            <span>🔥 "The legendary midnight snacks run!"</span>
-            <i class="fa-solid fa-heart" style="color: #ff007f;"></i>
+      <div class="voice-note-card">
+        <button class="play-voice-btn" onclick="toggleVoiceNote()">
+          <i class="fa-solid fa-play" id="voicePlayIcon"></i>
+        </button>
+        <div style="flex-grow: 1;">
+          <h4 style="color: #fff; margin-bottom: 0.4rem;">Special Audio Message 🎙️</h4>
+          <div class="waveform-bars" id="waveform">
+            <div class="bar" style="animation-delay: 0.1s;"></div>
+            <div class="bar" style="animation-delay: 0.3s;"></div>
+            <div class="bar" style="animation-delay: 0.2s;"></div>
+            <div class="bar" style="animation-delay: 0.4s;"></div>
+            <div class="bar" style="animation-delay: 0.1s;"></div>
+            <div class="bar" style="animation-delay: 0.5s;"></div>
+            <div class="bar" style="animation-delay: 0.2s;"></div>
+            <div class="bar" style="animation-delay: 0.3s;"></div>
           </div>
-          <div class="wall-item">
-            <span>😂 "That hilarious moment nobody else will ever understand."</span>
-            <i class="fa-solid fa-star" style="color: #00f2fe;"></i>
-          </div>
         </div>
+        <!-- 🌟 Optional: Replace with your voice note audio file link -->
+        <audio id="voiceAudio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
       </div>
     </section>
 
@@ -719,26 +767,26 @@
       <div class="timeline">
         <div class="timeline-item left">
           <div class="timeline-box">
-            <h3>Day One</h3>
-            <p>How it all started! The day we first met or started hanging out continuously.</p>
+            <h3 style="color:#fff;">Day One</h3>
+            <p style="color: var(--text-muted);">How it all started! The day we first met or started hanging out continuously.</p>
           </div>
         </div>
         <div class="timeline-item right">
           <div class="timeline-box">
-            <h3>The Craziest Day</h3>
-            <p>That one iconic moment where everything was pure fun and madness!</p>
+            <h3 style="color:#fff;">The Craziest Day</h3>
+            <p style="color: var(--text-muted);">That one iconic moment where everything was pure fun and madness!</p>
           </div>
         </div>
         <div class="timeline-item left">
           <div class="timeline-box">
-            <h3>Through Everything</h3>
-            <p>Supporting each other through thick and thin, no matter what happened.</p>
+            <h3 style="color:#fff;">Through Everything</h3>
+            <p style="color: var(--text-muted);">Supporting each other through thick and thin, no matter what happened.</p>
           </div>
         </div>
         <div class="timeline-item right">
           <div class="timeline-box">
-            <h3>To The Future</h3>
-            <p>Ready to unlock many more chapters, trips, and insane stories!</p>
+            <h3 style="color:#fff;">To The Future</h3>
+            <p style="color: var(--text-muted);">Ready to unlock many more chapters, trips, and insane stories!</p>
           </div>
         </div>
       </div>
@@ -746,19 +794,15 @@
 
     <!-- Interactive Vault & Buttons Section -->
     <section class="vault-section">
-      <h2 class="section-title"><i class="fa-solid fa-vault"></i> Friendship Vault</h2>
-      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Click below to unlock secret notes and celebrate our bond!</p>
+      <h2 class="section-title"><i class="fa-solid fa-vault"></i> Secret Vault</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Interact with the vault to celebrate!</p>
       
       <button class="action-btn" onclick="openSecretNote()">
         <i class="fa-solid fa-envelope-open-text"></i> Open Secret Note
       </button>
 
-      <button class="action-btn" onclick="getRandomRoast()" style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);">
-        <i class="fa-solid fa-fire"></i> Best Friend Roast
-      </button>
-
       <button class="action-btn" onclick="openPinVault()" style="background: linear-gradient(135deg, #7a00ff 0%, #00f2fe 100%);">
-        <i class="fa-solid fa-lock"></i> Hidden PIN Vault
+        <i class="fa-solid fa-lock"></i> PIN Vault
       </button>
 
       <button class="action-btn" onclick="triggerCelebration()" style="background: linear-gradient(135deg, #ff007f 0%, #ff758c 100%);">
@@ -788,38 +832,16 @@
     <div class="modal-box">
       <span class="close-btn" onclick="closeModal('pinModal')">&times;</span>
       <h2 style="font-family: 'Outfit'; color: #00f2fe; margin-bottom: 1rem;"><i class="fa-solid fa-key"></i> Secret Passcode</h2>
-      <p style="color: #9ca3af;">Enter the secret code (Hint: try <b>777</b> or <b>1234</b>)</p>
+      <p style="color: #9ca3af;">Enter passcode to unlock vault (Try: <b>777</b>)</p>
       <input type="password" id="pinInput" class="pin-input" placeholder="Enter PIN">
       <br>
-      <button class="action-btn" onclick="checkPin()">Unlock Vault</button>
+      <button class="action-btn" onclick="checkPin()">Unlock</button>
       <p id="pinMsg" style="margin-top:0.8rem; font-weight:600;"></p>
     </div>
   </div>
 
   <script>
-    /* Decode Binary Function */
-    function decodeBinary() {
-      playAudioSFX();
-      const nameEl = document.getElementById('decodedName');
-      nameEl.style.display = 'block';
-      triggerCelebration();
-    }
-
-    /* Add Note to Live Memory Wall */
-    function addMemoryToWall() {
-      const input = document.getElementById('wallInput');
-      if (input.value.trim() !== '') {
-        playAudioSFX();
-        const list = document.getElementById('wallList');
-        const item = document.createElement('div');
-        item.className = 'wall-item';
-        item.innerHTML = `<span>✨ "${input.value.trim()}"</span><i class="fa-solid fa-sparkles" style="color: #00f2fe;"></i>`;
-        list.prepend(item);
-        input.value = '';
-      }
-    }
-
-    /* Web Audio SFX Generator */
+    /* Web Audio SFX */
     function playAudioSFX() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -837,7 +859,7 @@
       } catch(e) {}
     }
 
-    /* Glowing Custom Cursor */
+    /* Glowing Cursor */
     const cursor = document.getElementById('cursor');
     document.addEventListener('mousemove', (e) => {
       cursor.style.left = e.clientX + 'px';
@@ -856,11 +878,10 @@
       }
     }
 
-    /* Background Audio & Spectrum Pulse */
+    /* Audio Controls */
     const audio = document.getElementById('bgAudio');
     const musicIcon = document.getElementById('musicIcon');
     const musicText = document.getElementById('musicText');
-    let isMusicPlaying = false;
 
     function toggleAudio() {
       playAudioSFX();
@@ -868,20 +889,41 @@
         audio.play();
         musicIcon.className = "fa-solid fa-pause";
         musicText.textContent = "Pause Vibe";
-        isMusicPlaying = true;
       } else {
         audio.pause();
         musicIcon.className = "fa-solid fa-music";
         musicText.textContent = "Play Vibe";
-        isMusicPlaying = false;
       }
     }
 
-    /* Floating Particles & Shooting Stars Background Canvas */
+    /* FEATURE 3: Voice Note Toggle */
+    const voiceAudio = document.getElementById('voiceAudio');
+    const voicePlayIcon = document.getElementById('voicePlayIcon');
+    const waveform = document.getElementById('waveform');
+
+    function toggleVoiceNote() {
+      playAudioSFX();
+      if (voiceAudio.paused) {
+        voiceAudio.play();
+        voicePlayIcon.className = "fa-solid fa-pause";
+        waveform.classList.add('playing');
+      } else {
+        voiceAudio.pause();
+        voicePlayIcon.className = "fa-solid fa-play";
+        waveform.classList.remove('playing');
+      }
+    }
+
+    /* FEATURE 4: Constellation Particle Canvas */
     const canvas = document.getElementById('particles-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
-    let shootingStars = [];
+    let mouse = { x: null, y: null, radius: 100 };
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+    });
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
@@ -895,87 +937,62 @@
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 2 + 1;
-        this.baseSpeedX = (Math.random() - 0.5) * 0.5;
-        this.baseSpeedY = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.5 + 0.2;
+        this.speedX = (Math.random() - 0.5) * 0.8;
+        this.speedY = (Math.random() - 0.5) * 0.8;
       }
       update() {
-        let speedMult = isMusicPlaying ? 1.8 : 1.0;
-        this.x += this.baseSpeedX * speedMult;
-        this.y += this.baseSpeedY * speedMult;
-        if (this.x < 0 || this.x > canvas.width) this.baseSpeedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.baseSpeedY *= -1;
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
       }
       draw() {
-        ctx.fillStyle = `rgba(244, 114, 182, ${this.opacity})`;
+        ctx.fillStyle = 'rgba(0, 242, 254, 0.6)';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
-    class ShootingStar {
-      constructor() {
-        this.reset();
-      }
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = 0;
-        this.len = Math.random() * 80 + 40;
-        this.speed = Math.random() * 10 + 6;
-        this.size = Math.random() * 1 + 0.1;
-        this.active = true;
-      }
-      update() {
-        this.x -= this.speed;
-        this.y += this.speed;
-        if (this.x < 0 || this.y > canvas.height) {
-          this.active = false;
-        }
-      }
-      draw() {
-        if (!this.active) return;
-        ctx.strokeStyle = 'rgba(0, 242, 254, 0.6)';
-        ctx.lineWidth = this.size;
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x + this.len, this.y - this.len);
-        ctx.stroke();
-      }
-    }
-
     function initParticles() {
       particles = [];
-      for (let i = 0; i < 60; i++) {
+      for (let i = 0; i < 50; i++) {
         particles.push(new Particle());
       }
     }
     initParticles();
 
+    function connectParticles() {
+      for (let a = 0; a < particles.length; a++) {
+        for (let b = a; b < particles.length; b++) {
+          let dx = particles[a].x - particles[b].x;
+          let dy = particles[a].y - particles[b].y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.strokeStyle = `rgba(138, 43, 226, ${1 - dist / 100})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
     function animateParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
       particles.forEach(p => {
         p.update();
         p.draw();
       });
-
-      if (Math.random() < 0.015) {
-        shootingStars.push(new ShootingStar());
-      }
-
-      shootingStars.forEach((star, index) => {
-        star.update();
-        star.draw();
-        if (!star.active) shootingStars.splice(index, 1);
-      });
-
+      connectParticles();
       requestAnimationFrame(animateParticles);
     }
     animateParticles();
 
     /* Typewriter Effect */
-    const textToType = "A collection of epic memories, video moments, endless laughs, and crazy adventures.";
+    const textToType = "A collection of classified memories, video moments, and secret ciphers.";
     let typeIdx = 0;
     const typewriterEl = document.getElementById('typewriter');
 
@@ -990,25 +1007,9 @@
       typeWriter();
     };
 
-    /* Roasts / Compliments Generator */
-    const roasts = [
-      "You're the only person who can make bad decisions look like absolute art! 🎨",
-      "We are going to be old and crazy together, causing chaos in the retirement home! 👵👴",
-      "Thanks for being the partner-in-crime I never knew I needed! 🔥",
-      "If we ever end up in jail, you're the one who got us there, but I'm the one who suggested it! 😂"
-    ];
-
-    function getRandomRoast() {
-      playAudioSFX();
-      const randIdx = Math.floor(Math.random() * roasts.length);
-      document.getElementById('secretText').textContent = roasts[randIdx];
-      openModal('secretModal');
-    }
-
     /* Modal Controls */
     function openSecretNote() {
       playAudioSFX();
-      document.getElementById('secretText').textContent = "You're not just a friend; you're family! Thanks for always keeping it real and making life an epic adventure. Never change! 🌟";
       openModal('secretModal');
     }
 
@@ -1024,11 +1025,11 @@
       const val = document.getElementById('pinInput').value;
       if (val === '777' || val === '1234') {
         document.getElementById('pinMsg').style.color = '#00f2fe';
-        document.getElementById('pinMsg').textContent = "🔓 VAULT UNLOCKED! Mutasim is officially the coolest person alive!";
+        document.getElementById('pinMsg').textContent = "🔓 VAULT UNLOCKED! You found the hidden access!";
         triggerCelebration();
       } else {
         document.getElementById('pinMsg').style.color = '#ff007f';
-        document.getElementById('pinMsg').textContent = "❌ Wrong PIN! Try 777 or 1234!";
+        document.getElementById('pinMsg').textContent = "❌ Incorrect Passcode!";
       }
     }
 
@@ -1040,7 +1041,7 @@
       document.getElementById(id).classList.remove('active');
     }
 
-    /* Confetti Celebration */
+    /* Confetti */
     function triggerCelebration() {
       playAudioSFX();
       confetti({
